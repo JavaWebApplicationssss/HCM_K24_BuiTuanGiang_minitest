@@ -3,47 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <title>Danh sách sách</title>
+
     <style>
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        /* CSS cho định dạng có điều kiện */
-        .highlight-row {
-            background-color: #ffcccc !important;
-            font-weight: bold;
-            color: #cc0000;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #f8fbff);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* Title */
+        .title {
+            font-size: 26px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-left: 5px solid #4CAF50;
+            padding-left: 10px;
+        }
+
+        /* Table wrapper */
+        .table-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #4CAF50, #43a047);
+            color: white;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+        }
+
+        th {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eee;
+            transition: 0.25s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f9ff;
+            transform: scale(1.01);
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        /* Highlight sách đắt */
+        .highlight-row {
+            background-color: #ffe5e5 !important;
+            color: #d60000;
+            font-weight: bold;
+        }
+
+        /* Giá */
+        .price {
+            font-weight: bold;
+            color: #e53935;
+        }
+
+        /* Link button */
+        .btn-detail {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #2196F3;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .btn-detail:hover {
+            background: #1976d2;
+        }
+
     </style>
 </head>
 <body>
 
-    <div th:replace="fragments/layout :: header('Danh Mục Sách Tổng Hợp')"></div>
+<div th:replace="fragments/layout :: header('Danh Mục Sách Tổng Hợp')"></div>
 
-    <div style="padding: 20px;">
+<div class="container">
+
+    <div class="title">📚 Danh sách sách</div>
+
+    <div class="table-card">
         <table>
             <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Tên Sách</th>
-                    <th>Tác Giả</th>
-                    <th>Giá Bán</th>
-                    <th>Thao tác</th>
-                </tr>
+            <tr>
+                <th>ID</th>
+                <th>Tên Sách</th>
+                <th>Tác Giả</th>
+                <th>Giá Bán</th>
+                <th>Thao tác</th>
+            </tr>
             </thead>
+
             <tbody>
-                <tr th:each="book : ${books}" th:classappend="${book.price >= 300000} ? 'highlight-row' : ''">
-                    <td th:text="${book.id}">1</td>
-                    <td th:text="${book.title}">Tên sách</td>
-                    <td th:text="${book.author}">Tác giả</td>
-                    <td th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">100,000 VNĐ</td>
-                    <td>
-                        <a th:href="@{/books/{id}(id=${book.id})}">Xem chi tiết</a>
-                    </td>
-                </tr>
+            <tr th:each="book : ${books}"
+                th:classappend="${book.price >= 300000} ? 'highlight-row' : ''">
+
+                <td th:text="${book.id}">1</td>
+
+                <td th:text="${book.title}">Tên sách</td>
+
+                <td th:text="${book.author}">Tác giả</td>
+
+                <td class="price"
+                    th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                    100,000 VNĐ
+                </td>
+
+                <td>
+                    <a th:href="@{/books/{id}(id=${book.id})}"
+                       class="btn-detail">
+                        Xem chi tiết
+                    </a>
+                </td>
+
+            </tr>
             </tbody>
         </table>
     </div>
 
-    <div th:replace="fragments/layout :: footer"></div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
 
 </body>
 </html>

@@ -3,26 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <title>Chi tiết sách</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #f8fbff);
+        }
+
+        /* Container */
+        .container {
+            max-width: 850px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        /* Card */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px 35px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        /* Title */
+        .card h2 {
+            font-size: 26px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            border-left: 5px solid #4CAF50;
+            padding-left: 10px;
+        }
+
+        /* Info */
+        .info {
+            margin: 15px 0;
+            font-size: 16px;
+            color: #444;
+        }
+
+        .info strong {
+            color: #111;
+            display: inline-block;
+            width: 120px;
+        }
+
+        /* Price */
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e53935;
+        }
+
+        /* Button */
+        .btn-back {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #4CAF50, #43a047);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background: linear-gradient(135deg, #43a047, #388e3c);
+            transform: scale(1.05);
+        }
+
+        /* Not found */
+        .not-found {
+            text-align: center;
+            margin-top: 80px;
+            color: #888;
+        }
+
+        .not-found h3 {
+            font-size: 22px;
+        }
+
+    </style>
 </head>
 <body>
 
-    <div th:replace="fragments/layout :: header('Thông Tin Chi Tiết Sách')"></div>
+<div th:replace="fragments/layout :: header('Thông Tin Chi Tiết Sách')"></div>
 
-    <div style="padding: 20px;" th:if="${book != null}">
-        <h2 th:text="${book.title}">Tên Sách</h2>
-        <p><strong>Mã Sách:</strong> <span th:text="${book.id}"></span></p>
-        <p><strong>Tác giả:</strong> <span th:text="${book.author}"></span></p>
-        <p><strong>Giá:</strong> <span th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></span></p>
+<div class="container">
 
-        <br/>
-        <a th:href="@{/books}" style="padding: 10px 15px; background: #007bff; color: white; text-decoration: none;">Quay lại danh sách</a>
+    <!-- Có dữ liệu -->
+    <div class="card" th:if="${book != null}">
+        <h2 th:text="${book.title}">Tên sách</h2>
+
+        <p class="info">
+            <strong>Mã sách:</strong>
+            <span th:text="${book.id}"></span>
+        </p>
+
+        <p class="info">
+            <strong>Tác giả:</strong>
+            <span th:text="${book.author}"></span>
+        </p>
+
+        <p class="info">
+            <strong>Giá:</strong>
+            <span class="price"
+                  th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">
+                </span>
+        </p>
+
+        <a th:href="@{/books}" class="btn-back">← Quay lại danh sách</a>
     </div>
 
-    <div th:if="${book == null}">
-        <h3>Không tìm thấy cuốn sách này!</h3>
+    <!-- Không có dữ liệu -->
+    <div class="not-found" th:if="${book == null}">
+        <h3>❌ Không tìm thấy cuốn sách này!</h3>
     </div>
 
-    <div th:replace="fragments/layout :: footer"></div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
 
 </body>
 </html>
