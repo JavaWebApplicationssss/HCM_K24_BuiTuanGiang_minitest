@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sách</title>
+    <style>
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        /* CSS cho định dạng có điều kiện */
+        .highlight-row {
+            background-color: #ffcccc !important;
+            font-weight: bold;
+            color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+
+    <div th:replace="fragments/layout :: header('Danh Mục Sách Tổng Hợp')"></div>
+
+    <div style="padding: 20px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên Sách</th>
+                    <th>Tác Giả</th>
+                    <th>Giá Bán</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="book : ${books}" th:classappend="${book.price >= 300000} ? 'highlight-row' : ''">
+                    <td th:text="${book.id}">1</td>
+                    <td th:text="${book.title}">Tên sách</td>
+                    <td th:text="${book.author}">Tác giả</td>
+                    <td th:text="${#numbers.formatDecimal(book.price, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">100,000 VNĐ</td>
+                    <td>
+                        <a th:href="@{/books/{id}(id=${book.id})}">Xem chi tiết</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:replace="fragments/layout :: footer"></div>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+    <header th:fragment="header(pageTitle)" style="background: #333; color: white; padding: 15px; text-align: center;">
+        <h1 th:text="${pageTitle}">Tiêu đề mặc định</h1>
+    </header>
+
+    <footer th:fragment="footer" style="background: #eee; text-align: center; padding: 10px; margin-top: 20px;">
+        <p>&copy; 2026 - Hệ thống Quản lý Sách</p>
+    </footer>
+
+</body>
+</html>
